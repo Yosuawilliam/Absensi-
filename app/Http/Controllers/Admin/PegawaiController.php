@@ -53,7 +53,7 @@ class PegawaiController extends Controller
     {
         $data = $this->validasi($request, $pegawai);
         $adminBaru = $request->boolean('is_admin');
-        $aktifBaru = $request->boolean('aktif');
+        $aktifBaru = $request->has('aktif') ? $request->boolean('aktif') : true;
 
         // Jangan sampai sistem kehilangan admin terakhir
         if ($pegawai->is_admin && $pegawai->aktif && (! $adminBaru || ! $aktifBaru) && $this->adminLain($pegawai) === 0) {

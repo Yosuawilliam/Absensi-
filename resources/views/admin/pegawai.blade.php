@@ -74,6 +74,12 @@
                                         Pegawai Biasa
                                     </span>
                                 @endif
+
+                                @if(!$p->aktif)
+                                    <span class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-700 border border-rose-200 ml-1">
+                                        Nonaktif
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 text-right space-x-2">
                                 <button type="button" @click="bukaEdit({{ json_encode($p) }})" class="p-2 text-slate-400 hover:text-brand-600 rounded-xl hover:bg-brand-50 transition" title="Edit">
@@ -146,6 +152,17 @@
                     </select>
                 </div>
 
+                <!-- Checkbox Status Aktif Pegawai -->
+                <div class="pt-2 border-t border-slate-100">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                        <input type="checkbox" name="aktif" value="1" x-model="form.aktif" class="w-4 h-4 text-emerald-600 rounded">
+                        <div>
+                            <span class="font-bold text-slate-900 block">Status Pegawai Aktif</span>
+                            <span class="text-[11px] text-slate-500">Centang agar pegawai dapat dicari dan melakukan absensi online.</span>
+                        </div>
+                    </label>
+                </div>
+
                 <!-- Checkbox Admin Status -->
                 <div class="pt-2 border-t border-slate-100">
                     <label class="flex items-center space-x-3 cursor-pointer">
@@ -212,17 +229,17 @@ function pegawaiAdminApp() {
         modalForm: false,
         modalImpor: false,
         isEdit: false,
-        form: { id: null, nip: '', nama: '', jabatan: '', unit_id: '', is_admin: false },
+        form: { id: null, nip: '', nama: '', jabatan: '', unit_id: '', is_admin: false, aktif: true },
 
         bukaTambah() {
             this.isEdit = false;
-            this.form = { id: null, nip: '', nama: '', jabatan: '', unit_id: '', is_admin: false };
+            this.form = { id: null, nip: '', nama: '', jabatan: '', unit_id: '', is_admin: false, aktif: true };
             this.modalForm = true;
         },
 
         bukaEdit(item) {
             this.isEdit = true;
-            this.form = { ...item, is_admin: !!item.is_admin };
+            this.form = { ...item, is_admin: !!item.is_admin, aktif: (item.aktif === undefined || item.aktif === null) ? true : !!item.aktif };
             this.modalForm = true;
         }
     }
